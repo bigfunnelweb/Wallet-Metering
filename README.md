@@ -25,7 +25,7 @@ The part we care about most: requirement 3 under concurrency. If 50 consume call
 - Retries, notifications, rate limiting, or an admin dashboard
 
 ### Deliverables
-- A fork of the take-home repository [REPO LINK] with the service's code committed to it — share the link to your fork when you submit
+- A fork of the take-home repository with the service's code committed to it — share the link to your fork when you submit
 - A README with: how to run it, how to run the concurrency test, and a short "design notes" section — your data model, why you chose it, and how you'd change it if this had to run across many independent customers instead of one shared account table
 
 
