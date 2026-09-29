@@ -29,7 +29,7 @@ async def main():
         print("Sending 50 simultaneous consume requests...")
 
         # 3. Send all consume requests concurrently
-        responses = await asyncio.gather(
+        results =  await asyncio.gather(
             *[
                 client.post(f"/accounts/{account_id}/consume")
                 for _ in range(TOTAL_REQUESTS)
@@ -41,9 +41,9 @@ async def main():
         rejected = 0
         errors = []
 
-        for result in responses:
-            if isinstance(result, Exception):
-                errors.append(str(result))
+        for result in results:
+            if isinstance(result, BaseException):
+                errors.append(f"Request failed: {result}")
             elif result.status_code == 200:
                 successful += 1
             elif result.status_code == 409:

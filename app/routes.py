@@ -3,6 +3,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 from sqlalchemy import select, update
 from sqlalchemy.orm import Session
+from typing import cast
+from sqlalchemy.engine import CursorResult
 
 from app.database import get_db
 from app.models import Account, Transaction
@@ -37,11 +39,11 @@ def top_up(
     db: Session = Depends(get_db),
 ):
     with db.begin():
-        result = db.execute(
+        result = cast(CursorResult, db.execute(
             update(Account)
             .where(Account.id == account_id)
             .values(balance=Account.balance + request.amount_paise)
-        )
+        ))
 
         if result.rowcount == 0:
             raise HTTPException(status_code=404, detail="Account not found")
@@ -71,14 +73,14 @@ def consume(
     db: Session = Depends(get_db),
 ):
     with db.begin():
-        result = db.execute(
+        result = cast(CursorResult, db.execute(
             update(Account)
             .where(
                 Account.id == account_id,
                 Account.balance >= CONSUME_FEE,
             )
             .values(balance=Account.balance - CONSUME_FEE)
-        )
+        ))
 
         if result.rowcount == 0:
             account = db.get(Account, account_id)
