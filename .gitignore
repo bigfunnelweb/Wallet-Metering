@@ -1,0 +1,13 @@
+# Python virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# SQLite database
+meterpay.db
+
+# Test and editor files
+.pytest_cache/
+.vscode/
